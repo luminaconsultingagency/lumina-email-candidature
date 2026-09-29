@@ -1,0 +1,4 @@
+.env
+*.eml
+.DS_Store
+__pycache__/
