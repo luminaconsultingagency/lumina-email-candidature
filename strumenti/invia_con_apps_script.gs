@@ -10,7 +10,7 @@
  *    La prima volta Google ti chiede di autorizzare l'accesso a Gmail.
  */
 
-const URL_HTML = 'https://cdn.jsdelivr.net/gh/luminaconsultingagency/lumina-email-candidature@v2026/dist/email-da-inviare.html'; // ← aggiorna OWNER/REPO (o metti un tag al posto di main)
+const URL_HTML = 'https://cdn.jsdelivr.net/gh/luminaconsultingagency/lumina-email-candidature@main/dist/email-da-inviare.html'; // (punta sempre all'ultima versione su main)
 const OGGETTO = 'LUMINA - Application Form';
 const NOME_MITTENTE = 'Lumina Consulting Agency';
 const DESTINATARI = 'lumina@lumina.h-farm.com'; // gruppo o lista, separati da virgola
