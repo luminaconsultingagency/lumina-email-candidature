@@ -34,6 +34,7 @@ facilmente con **Cerca** (Cmd+F). Le cose da aggiornare ogni anno sono di solito
 | Scadenza candidature | `ottobre alle 18:00` e `October` | Sia la parte IT che quella EN |
 | Data Business Game | `Business Game` | Sia IT che EN |
 | Link al Google Form | `forms.gle` | Ci sono **2** pulsanti (IT e EN) |
+| Testo dei pulsanti | `pulsante-` | Sono **immagini** (vedi sotto): per cambiare il testo rigenera il PNG e aggiorna l'`alt` |
 | Aziende con cui avete lavorato | `Allianz` | Il testo; i loghi sono nell'immagine `aziende.png` |
 | Descrizione delle Unit | `3 Unit` | Breve: il dettaglio è già nell'immagine |
 
@@ -51,9 +52,9 @@ oppure con un nome nuovo aggiornando il `src` in `email.html`.
 | `header.png` | In alto (logo su arancione) | 1200 px di larghezza o più, sfondo pieno |
 | `aziende.png` | Loghi aziende (IT + EN) | ~1000 px, **sfondo bianco pieno** |
 | `unit-ita.png` / `unit-en.png` | Le 3 Unit | 1920×840, **sfondo bianco pieno** |
-| `logo-badge.png` | Logo nel footer (versione per tutti) | Logo nero su riquadro bianco arrotondato |
-| `logo-bianco.png` | Logo nel footer in dark mode | Logo bianco su sfondo trasparente |
-| `linkedin-*.png`, `instagram-*.png` | Icone social | `-badge` = nero su cerchio bianco, `-bianco` = bianco trasparente |
+| `pulsante-candidati.png` / `pulsante-apply.png` | Pulsanti "Candidati" / "Apply" | Testo bianco su blu `#1595e7`, 3× (es. 657×156) |
+| `logo-badge.png` | Logo nel footer | Deve leggersi sia su sfondo bianco che nero |
+| `linkedin-badge.png`, `instagram-badge.png` | Icone social | Nero su cerchio bianco |
 
 Regole d'oro:
 - **Esporta al doppio della dimensione a cui l'immagine appare** (l'email è larga 600 px → header a 1200 px), così è nitida sugli schermi retina.
@@ -92,26 +93,32 @@ Controlla che i due pulsanti aprano il form giusto.
 **Metodo semplice (Gmail):** apri `dist/email-da-inviare.html` in Chrome, premi Cmd+A e poi Cmd+C,
 apri una nuova email in Gmail e incolla con Cmd+V. Oggetto consigliato: `LUMINA - Application Form`.
 
-**Metodo avanzato (Google Apps Script):** Gmail, quando incolli, elimina il blocco `<style>`: il logo resta
-comunque leggibile (vedi sotto), ma Apple Mail e Outlook non attivano il tema scuro. Per mandare l'HTML
-intatto usa lo script in [`strumenti/invia_con_apps_script.gs`](strumenti/invia_con_apps_script.gs).
+Se copiando la pagina dal browser il testo diventa bianco, il browser era in dark mode: incolla invece
+il codice HTML, oppure metti il Mac in modalità chiara prima di copiare.
+
+**Alternativa (Google Apps Script):** manda l'HTML così com'è, senza copia e incolla. Usa lo script in
+[`strumenti/invia_con_apps_script.gs`](strumenti/invia_con_apps_script.gs).
 
 ---
 
 ## Come funziona il dark mode
 
-Ogni client email gestisce il dark mode in modo diverso, e **Gmail ignora il CSS del dark mode**:
-su iPhone inverte da solo i colori degli sfondi ma **non** le immagini. Per questo nel 2025 il logo nero
-spariva su Gmail da iPhone. La soluzione usa due livelli:
+Ogni client email gestisce il dark mode a modo suo, e **Gmail**, che è quello che usano quasi tutti gli
+studenti (account `@student.h-farm.com`), **non permette di controllarlo**: quando incolli l'email elimina
+il CSS, e sul telefono inverte da solo i colori di sfondi e testi, ma **non delle immagini**.
+Per questo la regola è una sola:
 
-1. **Livello base, funziona ovunque:** logo e icone social sono su un riquadro bianco incorporato
-   nell'immagine (`logo-badge.png`, `*-badge.png`). In modalità chiara il riquadro è invisibile (bianco su bianco),
-   in modalità scura diventa un "badge" bianco e il logo resta leggibile.
-2. **Livello avanzato (Apple Mail, Outlook, Samsung Mail):** nel `<head>` c'è un blocco
-   `@media (prefers-color-scheme: dark)` che scurisce gli sfondi, schiarisce i testi e scambia il logo con la
-   versione bianca (`logo-bianco.png`). Il meccanismo usa due classi:
-   - `light-img`: la versione mostrata normalmente;
-   - `dark-img`: la versione nascosta, che viene mostrata solo in dark mode.
+> **Tutto quello che deve avere un colore preciso in entrambe le modalità deve essere un'immagine con lo sfondo incluso.**
+
+- **Logo e icone social**: il logo nero su sfondo trasparente spariva in dark mode (2025). Ora hanno il loro
+  sfondo incorporato nell'immagine, quindi si leggono sempre.
+- **Pulsanti**: se fossero testo, Gmail in dark mode trasformerebbe la scritta bianca in grigio. Sono immagini PNG
+  (testo bianco su blu), con un `alt` che fa da riserva se le immagini sono bloccate.
+- **Immagini con testo scuro** (loghi aziende, Unit): hanno lo sfondo bianco pieno.
+
+❌ Non provare a "scambiare" le immagini con `@media (prefers-color-scheme: dark)` e con copie nascoste:
+Gmail elimina il CSS, e le immagini nascoste hanno fatto mostrare a Gmail mobile le icone social al posto
+delle immagini delle Unit (successo nel 2026, poi corretto).
 
 ---
 
